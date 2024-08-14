@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="titleTv">Калькулятор времени</string>
+    <string name="timeHintLeft">1h1m1s</string>
+    <string name="timeHintRight">2h2m2s</string>
+    <string name="leftBTN">+</string>
+    <string name="rightBTN">-</string>
+</resources>
