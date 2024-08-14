@@ -52,6 +52,7 @@
         android:id="@+id/addButton"
         android:layout_width="99dp"
         android:layout_height="48dp"
+        android:onClick="add"
         android:text="@string/leftBTN"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
