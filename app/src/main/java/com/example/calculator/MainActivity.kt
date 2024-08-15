@@ -1,6 +1,7 @@
 package com.example.calculator
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -9,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,13 +21,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var result: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        timeLeftEt = findViewById(R.id.timeLeftEt)
-        timeRightEt = findViewById(R.id.timeRightEt)
-        addButton = findViewById(R.id.addButton)
-        subButton = findViewById(R.id.subButton)
-        result = findViewById(R.id.result)
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -34,22 +29,26 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        timeLeftEt = findViewById(R.id.timeLeftEt)
+        timeRightEt = findViewById(R.id.timeRightEt)
+        addButton = findViewById(R.id.addButton)
+        subButton = findViewById(R.id.subButton)
+        result = findViewById(R.id.result)
     }
 
-    fun readEt(et: EditText): Int{
+    private fun txtToSeconds(text: Editable): Int {
         var totalSeconds = 0
 
-        // Регулярное выражение для поиска часов, минут и секунд в строке
+        // regex часы, минуты и секунды
         val regex = """(\d+)([hms])""".toRegex()
-
-        // Поиск всех совпадений в строке
-        val matches = regex.findAll(et.text)
+        val matches = regex.findAll(text)
 
         for (match in matches) {
             val value = match.groupValues[1].toInt()
-            val unit = match.groupValues[2]
+            val hms = match.groupValues[2]
 
-            totalSeconds += when (unit) {
+            totalSeconds += when (hms) {
                 "h" -> value * 3600 // Часы в секунды
                 "m" -> value * 60   // Минуты в секунды
                 "s" -> value         // Секунды
@@ -60,7 +59,24 @@ class MainActivity : AppCompatActivity() {
         return totalSeconds
     }
 
+    private fun secondsToTxt(seconds: Int): String {
+        val hours = seconds / 3600
+        val minutes = (seconds % 3600) / 60
+        val secs = seconds % 60
+
+        return buildString {
+            if (hours > 0) append("${hours}h")
+            if (minutes > 0) append("${minutes}m")
+            if (secs > 0) append("${secs}s")
+        }
+    }
+
     fun add(view: View) {
-        result.text = (readEt(timeLeftEt) + readEt(timeRightEt)).toString()
+        result.text = secondsToTxt(txtToSeconds(timeLeftEt.text) + txtToSeconds(timeRightEt.text))
+    }
+
+    //возьмем по модулю чтобы результат всегда был
+    fun sub(view: View) {
+        result.text = secondsToTxt(abs(txtToSeconds(timeLeftEt.text) - txtToSeconds(timeRightEt.text)))
     }
 }

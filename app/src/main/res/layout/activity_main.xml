@@ -65,6 +65,7 @@
         android:id="@+id/subButton"
         android:layout_width="99dp"
         android:layout_height="48dp"
+        android:onClick="sub"
         android:text="@string/rightBTN"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
