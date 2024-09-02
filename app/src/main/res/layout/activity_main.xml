@@ -7,19 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="@string/titleTv"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.057" />
-
     <EditText
         android:id="@+id/timeLeftEt"
         android:layout_width="150dp"
@@ -52,6 +39,7 @@
         android:id="@+id/addButton"
         android:layout_width="99dp"
         android:layout_height="48dp"
+        android:backgroundTint="@color/buttons_color"
         android:onClick="add"
         android:text="@string/leftBTN"
         android:textSize="18sp"
@@ -65,6 +53,7 @@
         android:id="@+id/subButton"
         android:layout_width="99dp"
         android:layout_height="48dp"
+        android:backgroundTint="@color/buttons_color"
         android:onClick="sub"
         android:text="@string/rightBTN"
         android:textSize="22sp"
@@ -80,8 +69,25 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/title"
-        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:logo="@drawable/calculator_logo"
+        app:subtitle="@string/subtitle"
+        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Small"
+        app:subtitleTextColor="@color/black"
+        app:title="@string/Title"
+        app:titleMarginStart="30dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

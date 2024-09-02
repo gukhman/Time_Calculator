@@ -5,4 +5,9 @@
     <string name="timeHintRight">2h2m2s</string>
     <string name="leftBTN">+</string>
     <string name="rightBTN">-</string>
+    <string name="Title">Калькулятор времени</string>
+    <string name="subtitle">made by guhman</string>
+
+    <string name="menuExit">Exit</string>
+    <string name="menuReset">Reset</string>
 </resources>

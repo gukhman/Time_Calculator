@@ -1,11 +1,17 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.calculator
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,6 +20,8 @@ import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
 
+    //объявляем переменные
+    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
     private lateinit var timeLeftEt: EditText
     private lateinit var timeRightEt: EditText
     private lateinit var addButton: Button
@@ -30,13 +38,47 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        //инициализируем переменные
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
         timeLeftEt = findViewById(R.id.timeLeftEt)
         timeRightEt = findViewById(R.id.timeRightEt)
         addButton = findViewById(R.id.addButton)
         subButton = findViewById(R.id.subButton)
         result = findViewById(R.id.result)
+
+        //по умолчанию цвет текста вывода результата - черный
+        result.setTextColor(getResources().getColor(R.color.black))
     }
 
+    //добавляем меню
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    //прописываем поведение меню
+    @SuppressLint("SetTextI18n")    //аннотация чтобы избежать warning при очистке вывода
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.resetMenuMain -> {
+                timeLeftEt.text.clear()
+                timeRightEt.text.clear()
+                result.text = ""
+                Toast.makeText(applicationContext, "Данные очищены", Toast.LENGTH_LONG).show()
+                result.setTextColor(getResources().getColor(R.color.black))
+            }
+
+            R.id.exitMenuMain -> {
+                finish()
+                Toast.makeText(applicationContext, "Приложение закрыто", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    //перевод строки ввода в секунды
     private fun txtToSeconds(text: Editable): Int {
         var totalSeconds = 0
 
@@ -59,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         return totalSeconds
     }
 
+    //перевод секунд в строку для вывода
     private fun secondsToTxt(seconds: Int): String {
         val hours = seconds / 3600
         val minutes = (seconds % 3600) / 60
@@ -72,11 +115,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun add(view: View) {
-        result.text = secondsToTxt(txtToSeconds(timeLeftEt.text) + txtToSeconds(timeRightEt.text))
+        output("add")
     }
 
-    //возьмем по модулю чтобы результат всегда был
     fun sub(view: View) {
-        result.text = secondsToTxt(abs(txtToSeconds(timeLeftEt.text) - txtToSeconds(timeRightEt.text)))
+        output("sub")
+    }
+
+    private fun output(action: String) {
+        //устанавливаем цвет текста при выводе результата
+        //при вычитании возьмем по модулю чтобы результат всегда был
+        result.setTextColor(getResources().getColor(R.color.resultTextColor))
+        if (action == "add") result.text =
+            secondsToTxt(txtToSeconds(timeLeftEt.text) + txtToSeconds(timeRightEt.text))
+        else if (action == "sub") result.text =
+            secondsToTxt(abs(txtToSeconds(timeLeftEt.text) - txtToSeconds(timeRightEt.text)))
+        Toast.makeText(applicationContext, "Результат: ${result.text}", Toast.LENGTH_LONG).show()
     }
 }
