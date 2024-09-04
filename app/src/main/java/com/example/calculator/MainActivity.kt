@@ -115,20 +115,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun add(view: View) {
-        output("add")
+        output(Actions.ADD)
     }
 
     fun sub(view: View) {
-        output("sub")
+        output(Actions.SUB)
     }
 
-    private fun output(action: String) {
+    private fun output(action: Actions) {
         //устанавливаем цвет текста при выводе результата
         //при вычитании возьмем по модулю чтобы результат всегда был
         result.setTextColor(getResources().getColor(R.color.resultTextColor))
-        if (action == "add") result.text =
+        if (action == Actions.ADD) result.text =
             secondsToTxt(txtToSeconds(timeLeftEt.text) + txtToSeconds(timeRightEt.text))
-        else if (action == "sub") result.text =
+        else if (action == Actions.SUB) result.text =
             secondsToTxt(abs(txtToSeconds(timeLeftEt.text) - txtToSeconds(timeRightEt.text)))
         Toast.makeText(applicationContext, "Результат: ${result.text}", Toast.LENGTH_LONG).show()
     }
